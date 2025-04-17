@@ -134,3 +134,20 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Prisma generated files
+api/prisma/dev.db
+api/prisma/dev.db-journal
+
+# Mac system files
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# React cache
+.cache/
+*.cache
+
+# Yarn lock (if you're using npm)
+yarn.lock
