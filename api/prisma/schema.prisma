@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int              @id @default(autoincrement())
+  email        String           @unique
+  passwordHash String
+  createdAt    DateTime         @default(now())
+   isAdmin      Boolean  @default(false)
+  bookmarks    Bookmark[]
+  notifyReqs   NotifyRequest[]
+}
+
+model Product {
+  id               Int              @id @default(autoincrement())
+  title            String
+  slug             String           @unique
+  description      String
+  imageUrl         String
+  shopifyProductId String?
+  status           String           // "available" or "notify_only"
+  price            Float
+  createdAt        DateTime         @default(now())
+  bookmarks        Bookmark[]
+  notifyReqs       NotifyRequest[]
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model NotifyRequest {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
