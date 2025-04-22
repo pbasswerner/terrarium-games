@@ -12,8 +12,27 @@ const app = express();
 const PORT = parseInt(process.env.PORT) || 8080;
 
 CLIENT_URL = process.env.CLIENT_URL;
-// Middleware
-app.use(cors({ origin: CLIENT_URL, credentials: true }));
+
+const cors = require('cors');
+
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://terrarium-games.vercel.app',
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        // If no origin (like Postman), allow it
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true
+}));
+
+
 app.use(express.json());
 app.use(cookieParser());
 
