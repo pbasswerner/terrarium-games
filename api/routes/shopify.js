@@ -1,30 +1,47 @@
 const express = require('express');
 const router = express.Router();
-const fetch = require('node-fetch'); // if using Node <18
+const fetch = require('node-fetch');
 
 const SHOPIFY_URL = 'https://terrarium-games.myshopify.com/api/2023-10/graphql.json';
 const SHOPIFY_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN;
 
 router.get('/products', async (req, res) => {
     const query = `
-        {
-            products(first: 3) {
-                edges {
-                    node {
-                        title
-                    }
+    {
+      products(first: 10) {
+        edges {
+          node {
+            id
+            title
+            description
+            handle
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
                 }
+              }
             }
+            variants(first: 1) {
+              edges {
+                node {
+                  price {
+                    amount
+                  }
+                }
+              }
+            }
+          }
         }
-    `;
+      }
+    }
+  `;
 
     try {
-        //console.log('Using Shopify token:', SHOPIFY_STOREFRONT_API_TOKEN);
-
         const shopifyRes = await fetch(SHOPIFY_URL, {
             method: 'POST',
             headers: {
-
                 'Content-Type': 'application/json',
                 'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
             },
@@ -32,18 +49,22 @@ router.get('/products', async (req, res) => {
         });
 
         const data = await shopifyRes.json();
-        console.log('🔍 Shopify response data:', JSON.stringify(data, null, 2)); // ← Add this line
-
-
-        // 🔍 Debug the entire response structure
-        console.log('🔍 Shopify response data:', JSON.stringify(data, null, 2));
 
         if (!data.data || !data.data.products) {
-            console.error(' Shopify API error: Unexpected response structure');
             return res.status(500).json({ error: 'Unexpected response structure from Shopify' });
         }
 
-        res.json({ products: data.data.products.edges });
+        res.json({
+            products: data.data.products.edges.map(({ node }) => ({
+                id: node.id,
+                title: node.title,
+                description: node.description,
+                imageUrl: node.images.edges[0]?.node?.url || '',
+                price: node.variants.edges[0]?.node?.price?.amount || '',
+                shopifyHandle: node.handle,
+                status: 'available',
+            }))
+        });
     } catch (err) {
         console.error('Fetch error:', err);
         res.status(500).json({ error: 'Failed to fetch from Shopify' });

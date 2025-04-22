@@ -1,12 +1,20 @@
-import LoginForm from "../components/LoginForm";
+// src/pages/LoginPage.jsx
+import LoginForm from '../components/LoginForm';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 export default function LoginPage() {
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-            <div className="p-4 border rounded bg-white shadow-sm" style={{ width: '100%', maxWidth: '400px' }}>
-                <h2 className="text-center mb-4">Log In</h2>
-                <LoginForm />
-            </div>
-        </div>
+        <Container className="py-5">
+            <Row className="justify-content-center">
+                <Col md={6} lg={5}>
+                    <Card className="shadow">
+                        <Card.Body>
+                            <h3 className="text-center mb-4">Log In</h3>
+                            <LoginForm />
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 }

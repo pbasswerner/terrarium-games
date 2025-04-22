@@ -8,7 +8,10 @@ const authRoutes = require('./routes/auth');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+//const PORT = process.env.PORT || 4000;
+const PORT = parseInt(process.env.PORT) || 8080;
+
+
 
 
 // Middleware

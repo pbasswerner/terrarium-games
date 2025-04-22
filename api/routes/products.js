@@ -75,28 +75,60 @@ router.put('/:id', requireAuth, async (req, res) => {
     }
 });
 
-// DELETE /api/products/:id — admin only
+// // DELETE /api/products/:id — admin only
+// router.delete('/:id', requireAuth, async (req, res) => {
+//     if (!req.user.isAdmin) {
+//         return res.status(403).json({ error: 'Forbidden: Admins only' });
+//     }
+
+//     const { id } = req.params;
+
+//     try {
+//         await prisma.product.delete({
+//             where: { id: parseInt(id) }
+//         });
+
+//         res.json({ message: 'Product deleted successfully' });
+//     } catch (err) {
+//         console.error('Delete product error:', err);
+//         res.status(500).json({ error: 'Failed to delete product' });
+//     }
+// });
+
 router.delete('/:id', requireAuth, async (req, res) => {
+    console.log(' HIT DELETE ROUTE:', req.params.id);
+
     if (!req.user.isAdmin) {
+        console.log(' Not admin:', req.user);
         return res.status(403).json({ error: 'Forbidden: Admins only' });
     }
 
     const { id } = req.params;
 
     try {
-        await prisma.product.delete({
-            where: { id: parseInt(id) }
-        });
+        const parsedId = parseInt(id);
 
+        const product = await prisma.product.findUnique({ where: { id: parsedId } });
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+
+        //  Cascade delete relations if needed
+        await prisma.bookmark.deleteMany({ where: { productId: parsedId } });
+        await prisma.notifyRequest.deleteMany({ where: { productId: parsedId } });
+
+        //  Now safe to delete product
+        await prisma.product.delete({ where: { id: parsedId } });
+
+        console.log('✅ Product deleted:', parsedId);
         res.json({ message: 'Product deleted successfully' });
     } catch (err) {
-        console.error('Delete product error:', err);
+        console.error(' Delete product error:', err);
         res.status(500).json({ error: 'Failed to delete product' });
     }
 });
 
-// GET /api/products/:slug — Get single product by slug
-router.get('/:slug', async (req, res) => {
+
+// GET /api/products/slug/:slug — Get single product by slug
+router.get('/slug/:slug', async (req, res) => {
     const { slug } = req.params;
 
     try {
@@ -111,6 +143,26 @@ router.get('/:slug', async (req, res) => {
         res.json({ product });
     } catch (err) {
         console.error('Error fetching product by slug:', err);
+        res.status(500).json({ error: 'Failed to fetch product' });
+    }
+});
+
+// GET /api/products/:id — fetch product by ID
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const product = await prisma.product.findUnique({
+            where: { id: parseInt(id) },
+        });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        res.json({ product });
+    } catch (err) {
+        console.error('Error fetching product by ID:', err);
         res.status(500).json({ error: 'Failed to fetch product' });
     }
 });

@@ -1,3 +1,4 @@
+// src/components/LoginForm.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -7,9 +8,10 @@ export default function LoginForm() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { fetchUser } = useAuth();
 
     const handleChange = (e) => {
-        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleSubmit = async (e) => {
@@ -29,8 +31,8 @@ export default function LoginForm() {
                 throw new Error(data.message || 'Login failed');
             }
 
-            // Optionally reload to trigger auth context refresh
-            window.location.href = '/profile';
+            await fetchUser(); // ✅ Update context
+            navigate('/');     // ✅ Redirect to home
         } catch (err) {
             setError(err.message);
         }

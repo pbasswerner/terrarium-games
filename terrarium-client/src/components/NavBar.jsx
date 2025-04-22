@@ -1,17 +1,14 @@
+// src/components/NavBar.jsx
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function NavBar() {
-    const user = useAuth();
-    const navigate = useNavigate();
+    const { user, logout } = useAuth();
 
     const handleLogout = async () => {
-        await fetch('/api/logout', {
-            method: 'POST',
-            credentials: 'include',
-        });
-        window.location.reload(); // Quick refresh to reset auth state
+        await logout(); // clears token + sets user to null
+        window.location.href = '/';
     };
 
     return (
@@ -24,9 +21,12 @@ export default function NavBar() {
                 <Navbar.Collapse id="main-navbar">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link as={Link} to="/products">Shop</Nav.Link>
-                        {user?.role === 'admin' && (
-                            <Nav.Link as={Link} to="/add-product">Add Product</Nav.Link>
+                        {/*Admin-only links */}
+                        {user?.isAdmin && (
+                            <>
+                                <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
+                                <Nav.Link as={Link} to="/add-product">Add Product</Nav.Link>
+                            </>
                         )}
                     </Nav>
 
@@ -37,7 +37,7 @@ export default function NavBar() {
                                 <Nav.Link as={Link} to="/register">Register</Nav.Link>
                             </>
                         ) : (
-                            <NavDropdown title={user.username} id="profile-nav-dropdown" align="end">
+                            <NavDropdown title={user.email} id="profile-nav-dropdown" align="end">
                                 <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
