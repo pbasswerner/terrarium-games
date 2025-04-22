@@ -110,7 +110,6 @@ router.post('/login', async (req, res) => {
 router.post('/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
-        sameSite: 'lax',
         secure: false, // set to true if using HTTPS
     });
 

@@ -14,23 +14,29 @@ const PORT = parseInt(process.env.PORT) || 8080;
 CLIENT_URL = process.env.CLIENT_URL;
 
 
-
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://terrarium-games.vercel.app',
+    CLIENT_URL,
 ];
 
+// app.use(cors({
+//     origin: function (origin, callback) {
+//         console.log('Origin:', origin);
+//         // If no origin (like Postman), allow it
+//         if (!origin) return callback(null, true);
+//         if (allowedOrigins.includes(origin)) {
+//             return callback(null, true);
+//         }
+//         return callback(new Error('Not allowed by CORS'));
+//     },
+//     credentials: true
+// }));
+
 app.use(cors({
-    origin: function (origin, callback) {
-        // If no origin (like Postman), allow it
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-        return callback(new Error('Not allowed by CORS'));
-    },
+    origin: true,
     credentials: true
 }));
+
 
 
 app.use(express.json());
@@ -42,6 +48,7 @@ app.use('/api', authRoutes);
 app.get('/ping', (req, res) => {
     res.send('pong');
 });
+
 
 // Products Route
 const productRoutes = require('./routes/products');
