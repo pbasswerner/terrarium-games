@@ -15,7 +15,7 @@ const PORT = parseInt(process.env.PORT) || 8080;
 
 
 // Middleware
-app.use(cors({ origin: 'terrarium-games.vercel.app/api', credentials: true }));
+app.use(cors({ origin: 'terrarium-games.vercel.app/', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
