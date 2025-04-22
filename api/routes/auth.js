@@ -94,16 +94,9 @@ router.post('/login', async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: true, // set to true in production with HTTPS
-            //sameSite: 'lax',
+            sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
-
-        // res.cookie('token', token, {
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === 'production',
-        //     sameSite: 'None',
-        //     maxAge: 7 * 24 * 60 * 60 * 1000,
-        // });
 
 
         res.json({ message: 'Login successful', user: { id: user.id, email: user.email } });
