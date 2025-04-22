@@ -35,7 +35,7 @@ export default function NotifyMeList({ className = '' }) {
         if (!requestToDelete) return;
 
         try {
-            await fetch(`${API_BASE}/ api / notify / ${requestToDelete.id}`, {
+            await fetch(`${API_BASE}/api/notify/ ${requestToDelete.id}`, {
                 method: 'DELETE',
                 credentials: 'include',
             });
