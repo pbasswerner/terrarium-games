@@ -17,7 +17,7 @@ export default function HomePage() {
             try {
                 const [prismaRes, shopifyRes] = await Promise.all([
                     fetch(`${API_BASE}/products`),
-                    fetch(`${API_BASE}/api/shopify/products`)
+                    fetch(`${API_BASE}/shopify/products`)
                 ]);
 
                 const prismaData = await prismaRes.json();
