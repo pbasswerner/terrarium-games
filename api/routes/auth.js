@@ -93,10 +93,11 @@ router.post('/login', async (req, res) => {
         // 5. Set cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, // set to true in production with HTTPS
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'None',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
+
 
         res.json({ message: 'Login successful', user: { id: user.id, email: user.email } });
     } catch (err) {
