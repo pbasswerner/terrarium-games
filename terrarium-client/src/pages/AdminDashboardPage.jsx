@@ -3,6 +3,8 @@ import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 import GameCard from '../components/GameCard';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../api';
+
 
 export default function AdminDashboardPage() {
     const { user } = useAuth();
@@ -20,7 +22,7 @@ export default function AdminDashboardPage() {
 
         const fetchGames = async () => {
             try {
-                const res = await fetch('/api/products');
+                const res = await fetch(`${API_BASE}/api/products`);
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'Error fetching games');
                 setGames(data.products);

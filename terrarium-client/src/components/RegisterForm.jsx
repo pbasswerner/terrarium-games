@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE } from '../api';
 
 export default function RegisterForm() {
     const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '' });
@@ -21,7 +22,7 @@ export default function RegisterForm() {
                 return;
             }
 
-            const res = await fetch('/api/register', {
+            const res = await fetch(`${API_BASE}/api/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

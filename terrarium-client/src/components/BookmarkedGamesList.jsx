@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, Spinner } from 'react-bootstrap';
 import GameCard from './GameCard';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import { API_BASE } from '../api';
 
 export default function BookmarkedGamesList() {
     const [bookmarks, setBookmarks] = useState([]);
@@ -15,7 +16,7 @@ export default function BookmarkedGamesList() {
     useEffect(() => {
         const fetchBookmarks = async () => {
             try {
-                const res = await fetch('/api/bookmarks', { credentials: 'include' });
+                const res = await fetch(`${API_BASE}/api/bookmarks`, { credentials: 'include' });
                 const data = await res.json();
                 setBookmarks(data.bookmarks || []);
             } catch (err) {
@@ -32,7 +33,7 @@ export default function BookmarkedGamesList() {
         if (!bookmarkToDelete) return;
 
         try {
-            await fetch(`/api/bookmarks/${bookmarkToDelete.id}`, {
+            await fetch(`${API_BASE}/api/bookmarks/${bookmarkToDelete.id}`, {
                 method: 'DELETE',
                 credentials: 'include',
             });

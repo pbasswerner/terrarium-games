@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import UserInfoCard from '../components/UserInfoCard';
 import BookmarkedGamesList from '../components/BookmarkedGamesList';
 import NotifyMeList from '../components/NotifyMeList';
+import { API_BASE } from '../api';
 
 export default function ProfilePage() {
     const { user, loading } = useAuth();
@@ -12,7 +13,7 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (!loading && !user) {
-            navigate('/login');
+            navigate(`${API_BASE}/login`);
         }
     }, [user, loading, navigate]);
 

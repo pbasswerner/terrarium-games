@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Form, Button, Alert } from 'react-bootstrap';
+import { API_BASE } from '../api';
 
 export default function LoginForm() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -19,7 +20,7 @@ export default function LoginForm() {
         setError('');
 
         try {
-            const res = await fetch('/api/login', {
+            const res = await fetch(`${API_BASE}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

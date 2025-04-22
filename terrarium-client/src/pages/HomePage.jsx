@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import GameCard from '../components/GameCard';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../api';
 
 export default function HomePage() {
     const [prismaGames, setPrismaGames] = useState([]);
@@ -10,12 +11,13 @@ export default function HomePage() {
     const [error, setError] = useState('');
     const { user } = useAuth();
 
+
     useEffect(() => {
         const fetchGames = async () => {
             try {
                 const [prismaRes, shopifyRes] = await Promise.all([
-                    fetch('/api/products'),
-                    fetch('/api/shopify/products')
+                    fetch(`${API_BASE}/api/products`),
+                    fetch(`${API_BASE}/api/shopify/products`)
                 ]);
 
                 const prismaData = await prismaRes.json();

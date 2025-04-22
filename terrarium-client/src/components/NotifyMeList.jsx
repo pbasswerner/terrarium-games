@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, Spinner } from 'react-bootstrap';
 import GameCard from './GameCard';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import { API_BASE } from '../api';
 
 export default function NotifyMeList({ className = '' }) {
     const [requests, setRequests] = useState([]);
@@ -15,7 +16,7 @@ export default function NotifyMeList({ className = '' }) {
     useEffect(() => {
         const fetchNotifyRequests = async () => {
             try {
-                const res = await fetch('/api/notify', {
+                const res = await fetch(`${API_BASE}/api/notify`, {
                     credentials: 'include',
                 });
                 const data = await res.json();
@@ -34,7 +35,7 @@ export default function NotifyMeList({ className = '' }) {
         if (!requestToDelete) return;
 
         try {
-            await fetch(`/api/notify/${requestToDelete.id}`, {
+            await fetch(`${API_BASE}/ api / notify / ${requestToDelete.id}`, {
                 method: 'DELETE',
                 credentials: 'include',
             });
@@ -82,7 +83,7 @@ export default function NotifyMeList({ className = '' }) {
                 onConfirm={handleDelete}
                 message={
                     requestToDelete
-                        ? `Cancel notify-me request for "${requestToDelete.title}"?`
+                        ? `Cancel notify - me request for "${requestToDelete.title}" ? `
                         : 'Are you sure you want to delete this request?'
                 }
             />

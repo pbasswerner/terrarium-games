@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { useAuth } from '../context/AuthContext';
-
+import { API_BASE } from '../api';
 
 export default function BookmarkButton({ productId }) {
     const [bookmarked, setBookmarked] = useState(false);
@@ -15,7 +15,7 @@ export default function BookmarkButton({ productId }) {
 
         const fetchBookmarks = async () => {
             try {
-                const res = await fetch('/api/bookmarks', {
+                const res = await fetch(`${API_BASE}/api/bookmarks`, {
                     credentials: 'include',
                 });
                 const data = await res.json();
@@ -39,14 +39,14 @@ export default function BookmarkButton({ productId }) {
 
         try {
             if (bookmarked) {
-                await fetch(`/api/bookmarks/${bookmarkId}`, {
+                await fetch(`${API_BASE}/api/bookmarks/${bookmarkId}`, {
                     method: 'DELETE',
                     credentials: 'include',
                 });
                 setBookmarked(false);
                 setBookmarkId(null);
             } else {
-                const res = await fetch('/api/bookmarks', {
+                const res = await fetch(`${API_BASE}/api/bookmarks`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },

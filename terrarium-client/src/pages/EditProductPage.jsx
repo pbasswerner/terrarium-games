@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Spinner, Alert } from 'react-bootstrap';
 import ProductForm from '../components/ProductForm';
+import { API_BASE } from '../api';
 
 export default function EditProductPage() {
     const { id } = useParams();
@@ -14,7 +15,7 @@ export default function EditProductPage() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const res = await fetch(`/api/products/${id}`, {
+                const res = await fetch(`${API_BASE}/api/products/${id}`, {
                     credentials: 'include'
                 });
                 if (!res.ok) throw new Error('Failed to load product');

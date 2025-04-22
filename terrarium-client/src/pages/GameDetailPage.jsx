@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Spinner, Alert, Button, Badge } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../api';
 
 export default function GameDetailPage() {
     const { slug } = useParams();
@@ -15,7 +16,7 @@ export default function GameDetailPage() {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const res = await fetch(`/api/products/slug/${slug}`);
+                const res = await fetch(`${API_BASE}/api/products/slug/${slug}`);
 
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'Game not found');
@@ -33,7 +34,7 @@ export default function GameDetailPage() {
 
     const handleNotify = async () => {
         try {
-            const res = await fetch('/api/notify', {
+            const res = await fetch(`${API_BASE}/api/notify`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },

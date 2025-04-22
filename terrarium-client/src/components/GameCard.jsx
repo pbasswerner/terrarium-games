@@ -2,6 +2,7 @@ import { Card, Button, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import BookmarkButton from './BookmarkButton';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../api';
 
 export default function GameCard({ product, onDelete, isAdmin = false, onEdit }) {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function GameCard({ product, onDelete, isAdmin = false, onEdit })
         e.stopPropagation();
 
         try {
-            const res = await fetch('/api/notify', {
+            const res = await fetch(`${API_BASE}/api/notify`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -151,7 +152,7 @@ export default function GameCard({ product, onDelete, isAdmin = false, onEdit })
                                     const confirm = window.confirm(`Delete product "${title}"?`);
                                     if (!confirm) return;
                                     try {
-                                        await fetch(`/api/products/${product.id}`, {
+                                        await fetch(`${API_BASE}/api/products/${product.id}`, {
                                             method: 'DELETE',
                                             credentials: 'include',
                                         });
