@@ -16,7 +16,7 @@ export default function HomePage() {
         const fetchGames = async () => {
             try {
                 const [prismaRes, shopifyRes] = await Promise.all([
-                    fetch(`${API_BASE}/api/products`),
+                    fetch(`${API_BASE}/products`),
                     fetch(`${API_BASE}/api/shopify/products`)
                 ]);
 
