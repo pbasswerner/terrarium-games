@@ -15,9 +15,11 @@ export default function HomePage() {
     useEffect(() => {
         const fetchGames = async () => {
             try {
+                console.log('API =', process.env.REACT_APP_API_URL);
+
                 const [prismaRes, shopifyRes] = await Promise.all([
-                    fetch(`${API_BASE}/api/products`),
-                    fetch(`${API_BASE}/api/shopify/products`)
+                    await fetch(`${API_BASE}/api/products`),
+                    await fetch(`${API_BASE}/api/shopify/products`)
                 ]);
 
                 const prismaData = await prismaRes.json();
