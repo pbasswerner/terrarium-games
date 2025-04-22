@@ -9,13 +9,13 @@ dotenv.config();
 
 const app = express();
 //const PORT = process.env.PORT || 4000;
-const PORT = parseInt(process.env.PORT || 8080);
+const PORT = parseInt(process.env.PORT) || 8080;
 
 
 
 
 // Middleware
-app.use(cors({ origin: 'https://terrarium-games.vercel.app', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
