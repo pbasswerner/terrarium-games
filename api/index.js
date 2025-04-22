@@ -8,14 +8,12 @@ const authRoutes = require('./routes/auth');
 dotenv.config();
 
 const app = express();
-//const PORT = process.env.PORT || 4000;
+
 const PORT = parseInt(process.env.PORT) || 8080;
 
-
-
-
+CLIENT_URL = process.env.CLIENT_URL;
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
