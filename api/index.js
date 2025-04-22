@@ -13,7 +13,7 @@ const PORT = parseInt(process.env.PORT) || 8080;
 
 CLIENT_URL = process.env.CLIENT_URL;
 
-const cors = require('cors');
+
 
 const allowedOrigins = [
     'http://localhost:3000',
