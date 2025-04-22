@@ -6,8 +6,9 @@ Terrarium Games is a full-stack e-commerce web application built to showcase and
 
 ## 🚀 Live Demo
 
-- **Frontend:** [https://terrarium-games-client.vercel.app](https://terrarium-games-client.vercel.app)
-- **Backend API:** [https://terrarium-games-api.onrender.com](https://terrarium-games-api.onrender.com)
+- **Frontend:** [terrarium-games.vercel.app](https://terrarium-games-client.vercel.app)
+- **Backend API:** [https://terrarium-games.onrender.com/](https://terrarium-games.onrender.com/)
+
 
 ---
 
