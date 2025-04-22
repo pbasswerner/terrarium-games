@@ -56,7 +56,7 @@ Terrarium Games is a full-stack e-commerce web application built to showcase and
 
 ```
 📦 root/
-├── client/          # React app
+├── terrarium-client/          # React app
 ├── api/             # Express backend + Prisma
 ├── prisma/          # Prisma schema + migrations
 ├── accessibility_reports/ # Lighthouse reports
@@ -76,7 +76,7 @@ Saved in `accessibility_reports/`:
 ## 🧪 Tests
 
 - All tests written using **React Testing Library**
-- Located in `client/src/tests/`
+- Located in `terrarium-client/src/tests/`
 
 
 _Last updated: April 21, 2025_
